@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日常 · 个人日记</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>闲&nbsp;&nbsp;碎</h1>
+    <div class="sub" id="sub-text">把今天，轻轻收起来</div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="write">写日记</button>
+    <button class="tab" data-tab="browse">翻阅</button>
+    <button class="tab" data-tab="mistake">错题本</button>
+    <button class="tab" data-tab="answers">答案之书</button>
+  </nav>
+
+  <!-- ========== 写日记 ========== -->
+  <section class="panel show" id="panel-write">
+    <div class="card">
+      <div class="edit-tip" id="edit-tip">正在重新整理过去的一篇日记 · <a href="javascript:void(0)" id="cancel-edit" style="color:inherit;text-decoration:underline">取消编辑</a></div>
+      <div class="write-date" id="today-label"></div>
+
+      <div class="daily-quote">
+        <span class="dq-label">今日一句</span>
+        <p class="dq-text" id="daily-quote-text"></p>
+      </div>
+
+      <div class="field-label">今天的心情</div>
+      <div class="moods" id="mood-picker"></div>
+
+      <input type="text" id="title-input" maxlength="40" placeholder="今天想叫它什么呢（可不填）">
+      <textarea id="content-input" placeholder="今天发生了什么呢？再小的事——一阵风、一顿饭、一点心事，也值得被温柔地记下……"></textarea>
+
+      <div class="image-thumbs" id="image-thumbs" style="display:none"></div>
+      <input type="file" id="image-input" accept="image/*" multiple hidden>
+
+      <div class="write-foot">
+        <span class="word-count" id="word-count">0 字</span>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="btn btn-ghost btn-icon" id="attach-btn" title="附上一张照片">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+            添图
+          </button>
+          <button class="btn btn-ghost" id="clear-btn">清空</button>
+          <button class="btn btn-primary" id="save-btn">收&nbsp;&nbsp;存</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 翻阅 ========== -->
+  <section class="panel" id="panel-browse">
+    <div class="toolbar">
+      <div class="search-box">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B877E" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="text" id="search-input" placeholder="翻翻过去的日子，搜搜某段心情……">
+      </div>
+      <div class="filters" id="filters"></div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div id="timeline"></div>
+  </section>
+
+  <!-- ========== 错题本 ========== -->
+  <section class="panel" id="panel-mistake">
+    <nav class="subtabs">
+      <button class="m-subtab active" data-mview="form">记错题</button>
+      <button class="m-subtab" data-mview="list">错题集</button>
+    </nav>
+
+    <!-- 记错题 -->
+    <div class="m-view show" id="m-view-form">
+      <div class="card">
+        <div class="edit-tip" id="m-edit-tip">正在重新整理一道错题 · <a href="javascript:void(0)" id="m-cancel-edit" style="color:inherit;text-decoration:underline">取消编辑</a></div>
+
+        <div class="field-label">科目</div>
+        <input type="text" id="m-subject" class="m-input" list="m-subject-list" maxlength="10" placeholder="数学、英语……（默认「其他」）">
+        <datalist id="m-subject-list"></datalist>
+
+        <div class="field-label">题目</div>
+        <textarea id="m-question" class="m-textarea" placeholder="把做错的题记下来，拍张照片也可以"></textarea>
+
+        <div class="image-thumbs" id="m-image-preview" style="display:none"></div>
+        <input type="file" id="m-image-input" accept="image/*" hidden>
+        <button class="btn btn-ghost btn-icon" id="m-attach-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+          拍题 / 附图
+        </button>
+
+        <div class="field-label" style="margin-top:22px">当时的错解（可不填）</div>
+        <textarea id="m-wrong" class="m-textarea m-short" placeholder="当时是怎么想的、怎么错的"></textarea>
+
+        <div class="field-label">正确解析（可不填）</div>
+        <textarea id="m-answer" class="m-textarea m-short" placeholder="正确的做法、关键步骤"></textarea>
+
+        <div class="field-label">错因笔记（可不填）</div>
+        <input type="text" id="m-note" class="m-input" maxlength="60" placeholder="一句话提醒自己：粗心？概念不清？">
+
+        <div class="write-foot">
+          <span class="word-count">错了不可怕，记下来就会了</span>
+          <button class="btn btn-primary" id="m-save-btn">收&nbsp;&nbsp;进</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 错题集 -->
+    <div class="m-view" id="m-view-list">
+      <div class="toolbar">
+        <div class="search-box">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B877E" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="text" id="m-search-input" placeholder="搜搜科目、题目或笔记……">
+        </div>
+        <div class="filters" id="m-filters"></div>
+      </div>
+      <div class="quiz-bar">
+        <div class="stats" id="m-stats" style="margin-bottom:0"></div>
+        <button class="btn btn-ghost btn-icon" id="m-quiz-btn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>
+          随机自测
+        </button>
+      </div>
+      <div id="m-list"></div>
+      <div style="text-align:center;margin-top:6px">
+        <button class="btn btn-ghost" id="m-quiz-btn-2" style="font-size:13px;padding:8px 22px">随手抽一道，考考自己</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 答案之书 ========== -->
+  <section class="panel" id="panel-answers">
+    <div class="book-stage">
+      <div class="book" id="answer-book" role="button" tabindex="0" aria-label="翻开答案之书">
+        <div class="book-spine"></div>
+        <div class="book-mark">❦</div>
+        <div class="book-title">答 案 之 书</div>
+        <div class="book-sub">THE BOOK OF ANSWERS</div>
+      </div>
+      <p class="answer-hint" id="answer-hint">心里默念一个问题，然后轻触书页</p>
+      <p class="answer-text" id="answer-text"></p>
+    </div>
+
+    <div class="sign-divider"><span>今 日 一 签</span></div>
+    <div class="sign-stage">
+      <div class="sign-cover" id="sign-cover" role="button" tabindex="0">
+        <div class="sign-cover-icon">✦</div>
+        <p>今天的签还在等你，轻轻抽一签</p>
+      </div>
+      <div class="sign-result" id="sign-result">
+        <div class="sign-mark">今日上上签</div>
+        <p class="sign-text" id="sign-text"></p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    文字只妥帖存放在本浏览器里 · 安心书写，慢慢生活
+    <div class="backup-links">
+      <a href="javascript:void(0)" id="backup-btn">备份</a>
+      <span class="backup-sep">·</span>
+      <a href="javascript:void(0)" id="restore-btn">恢复</a>
+    </div>
+    <input type="file" id="import-input" accept=".json,application/json" hidden>
+  </footer>
+</div>
+
+<!-- ========== 详情弹窗 ========== -->
+<div class="mask" id="mask">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <span class="entry-dot" id="modal-dot"></span>
+      <span class="entry-mood-tag" id="modal-mood" style="margin-top:0"></span>
+    </div>
+    <div class="modal-date" id="modal-date"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-images" id="modal-images" style="display:none"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-danger" id="delete-btn">删除</button>
+      <button class="btn btn-ghost" id="modal-edit-btn">编辑</button>
+      <button class="btn btn-primary" id="close-btn">合&nbsp;上</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 错题详情弹窗 ========== -->
+<div class="mask" id="m-mask">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="m-subject" id="m-modal-subject"></span>
+    </div>
+    <div class="modal-date" id="m-modal-date"></div>
+    <div class="m-modal-label">题目</div>
+    <div class="modal-body" id="m-modal-question"></div>
+    <div class="modal-images" id="m-modal-image" style="display:none"></div>
+    <div id="m-modal-wrong-wrap">
+      <div class="m-modal-label">当时的错解</div>
+      <div class="modal-body" id="m-modal-wrong"></div>
+    </div>
+    <div id="m-modal-answer-wrap">
+      <div class="m-modal-label">正确解析</div>
+      <div class="modal-body" id="m-modal-answer"></div>
+    </div>
+    <div id="m-modal-note-wrap">
+      <div class="m-modal-label">错因笔记</div>
+      <div class="modal-body" id="m-modal-note"></div>
+    </div>
+    <div class="m-mastery-row">
+      <span class="m-modal-label" style="margin:0">掌握度</span>
+      <div id="m-mastery-btns" class="m-mastery-btns"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-danger" id="m-delete-btn">删除</button>
+      <button class="btn btn-ghost" id="m-edit-btn">编辑</button>
+      <button class="btn btn-primary" id="m-close-btn">合&nbsp;上</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 随机自测弹窗 ========== -->
+<div class="mask" id="q-mask">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="m-subject" id="q-subject"></span>
+      <span class="quiz-badge">自测</span>
+    </div>
+    <div class="modal-body quiz-question" id="q-question"></div>
+    <div class="modal-images" id="q-image" style="display:none"></div>
+    <div class="quiz-answer" id="q-answer-wrap">
+      <div class="m-modal-label">解析</div>
+      <div class="modal-body" id="q-answer"></div>
+    </div>
+    <div class="modal-actions quiz-actions">
+      <button class="btn btn-ghost" id="q-close-btn">合上</button>
+      <button class="btn btn-primary" id="q-reveal-btn">看解析</button>
+      <div class="quiz-judge" id="q-judge">
+        <button class="btn btn-ghost" id="q-vague-btn">还差点</button>
+        <button class="btn btn-primary" id="q-know-btn">已经会了</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 过场动画 ========== -->
+<div class="trans" id="trans" aria-hidden="true">
+  <canvas id="trans-canvas"></canvas>
+  <span class="trans-blob b1"></span>
+  <span class="trans-blob b2"></span>
+  <span class="trans-blob b3"></span>
+  <div class="trans-inner">
+    <div class="trans-mark">❦</div>
+    <p class="trans-line" id="trans-line"></p>
+    <div class="trans-sub">慢 · 慢 · 来</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- 普通脚本（非 ES Module），保证 file:// 双击直接打开可用；顺序不可调换 -->
+<script src="js/texts.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/app.js"></script>
+<script src="js/mistakes.js"></script>
+<script src="js/answers.js"></script>
+</body>
+</html>
